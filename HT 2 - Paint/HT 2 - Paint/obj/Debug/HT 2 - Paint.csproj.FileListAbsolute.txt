@@ -1,0 +1,14 @@
+D:\ШАГ\Програмування\C# WPF HTask\HT 2 - Paint\HT 2 - Paint\obj\Debug\MainWindow.g.cs
+D:\ШАГ\Програмування\C# WPF HTask\HT 2 - Paint\HT 2 - Paint\obj\Debug\App.g.cs
+D:\ШАГ\Програмування\C# WPF HTask\HT 2 - Paint\HT 2 - Paint\obj\Debug\HT 2 - Paint_MarkupCompile.cache
+D:\ШАГ\Програмування\C# WPF HTask\HT 2 - Paint\HT 2 - Paint\obj\Debug\HT 2 - Paint_MarkupCompile.lref
+D:\ШАГ\Програмування\C# WPF HTask\HT 2 - Paint\HT 2 - Paint\bin\Debug\HT 2 - Paint.exe.config
+D:\ШАГ\Програмування\C# WPF HTask\HT 2 - Paint\HT 2 - Paint\bin\Debug\HT 2 - Paint.exe
+D:\ШАГ\Програмування\C# WPF HTask\HT 2 - Paint\HT 2 - Paint\bin\Debug\HT 2 - Paint.pdb
+D:\ШАГ\Програмування\C# WPF HTask\HT 2 - Paint\HT 2 - Paint\obj\Debug\MainWindow.baml
+D:\ШАГ\Програмування\C# WPF HTask\HT 2 - Paint\HT 2 - Paint\obj\Debug\HT 2 - Paint.g.resources
+D:\ШАГ\Програмування\C# WPF HTask\HT 2 - Paint\HT 2 - Paint\obj\Debug\HT_2___Paint.Properties.Resources.resources
+D:\ШАГ\Програмування\C# WPF HTask\HT 2 - Paint\HT 2 - Paint\obj\Debug\HT 2 - Paint.csproj.GenerateResource.cache
+D:\ШАГ\Програмування\C# WPF HTask\HT 2 - Paint\HT 2 - Paint\obj\Debug\HT 2 - Paint.csproj.CoreCompileInputs.cache
+D:\ШАГ\Програмування\C# WPF HTask\HT 2 - Paint\HT 2 - Paint\obj\Debug\HT 2 - Paint.exe
+D:\ШАГ\Програмування\C# WPF HTask\HT 2 - Paint\HT 2 - Paint\obj\Debug\HT 2 - Paint.pdb
