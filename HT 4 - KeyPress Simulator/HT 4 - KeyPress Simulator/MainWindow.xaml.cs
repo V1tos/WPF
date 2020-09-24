@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Threading;
+using System.Drawing;
 
 namespace HT_4___KeyPress_Simulator
 {
@@ -21,25 +22,54 @@ namespace HT_4___KeyPress_Simulator
     /// </summary>
     public partial class MainWindow : Window
     {
-        public string alphabet = "qwertyuiopasdfghjklzxcvbnm";
+        public static string currentText="";
         string gen;
+        TimerCallback callback;
+        Timer timer;
+        static int second = 0;
+        static int speed = 0;
         public MainWindow()
         {
             InitializeComponent();
-            gen = GetRandomString(alphabet, 70);
-            lblStatic.Content = gen;
+            callback = new TimerCallback(CalculateSpeed);
         }
 
-        private string GetRandomString(string alphabet, int length)
+        private string GetRandomString(int length, int level)
         {
+            string alphabet="";
+            switch (level)
+            {
+                case 1:
+                    alphabet = "qwerty";
+                    break;
+                case 2:
+                    alphabet = "qwertyuiop";
+                    break;
+                case 3:
+                    alphabet = "qwertyuiopasdfg";
+                    break;
+                case 4:
+                    alphabet = "qwertyuiopasdfghjklzxc";
+                    break;
+                case 5:
+                    alphabet = "qwertyuiopasdfghjklzxcvbnm";
+                    break;
+                default:
+                    break;
+            }
+
+            if (cbCase.IsChecked == true)
+                alphabet += alphabet.ToUpper();
+
+
             Random random = new Random();
             StringBuilder sb = new StringBuilder(length - 1);
-            int position = 0;
+            int charIndex = 0;
 
             for (int i = 0; i < length; i++)
             {
-                position = random.Next(0, alphabet.Length - 1);
-                sb.Append(alphabet[position]);
+                charIndex = random.Next(0, alphabet.Length - 1);
+                sb.Append(alphabet[charIndex]);
             }
 
             return sb.ToString();
@@ -85,18 +115,50 @@ namespace HT_4___KeyPress_Simulator
             button.Background = Brushes.LightGray;
 
         int counter = 1;
-        string currentText;
+        int failsCount = 0;
         private void CharPress(Button button)
         {
-            if (counter == gen.Length+1)
-                return;
+            if (button.Content.ToString() != gen[counter-1].ToString())
+                lblFails.Content = (++failsCount).ToString();
 
-            currentText = gen.Substring(0, counter);
-            lblUserPress.Content += button.Content.ToString();
-            lblDynamic.Content = currentText;
+            lblDynamic.Content = gen.Substring(0, counter);
+            lblStatic.Content = gen.Substring(counter);
+            currentText += button.Content.ToString();
+            lblUserPress.Content = currentText;
             lblUserPress.Background = Brushes.LightGreen;
+
+            if (counter == gen.Length)
+            {
+                timer.Dispose();
+                MessageBox.Show($"You've done {failsCount} fails", "Finish", MessageBoxButton.OK);
+                RefreshView();
+                return;
+            }
             counter++;
+            
         }
+
+        private void btnStart_Click(object sender, RoutedEventArgs e)
+        {
+            timer = new Timer(callback, null, 0, 1000);
+            gen = GetRandomString(70, (int)slDificult.Value);
+            lblStatic.Content = gen;
+            btnStart.IsEnabled = false;
+            btnStop.IsEnabled = true;
+            mainWindow.KeyDown += Key_Down;
+            mainWindow.KeyUp += Key_Up;
+        }
+
+        private void CalculateSpeed(object obj)
+        {
+            second++;
+
+            if (currentText.Length!=0)
+                speed = (int)(((float)currentText.Length / (float)second) * 60);
+
+            Dispatcher.Invoke(() => { lblSpeed.Content = speed.ToString(); });
+        }
+
         private void Key_Down(object sender, KeyEventArgs e)
         {
             switch (e.Key)
@@ -493,5 +555,46 @@ namespace HT_4___KeyPress_Simulator
             }
         }
 
+        private void slDificult_Changed(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            btnStart.IsEnabled = false;
+        }
+
+        private void slDificult_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            btnStart.IsEnabled = false;
+        }
+
+        private void slDificult_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            Slider slider = sender as Slider;
+            if (slider.Value == 0)
+            {
+                btnStart.IsEnabled = false;
+                return;
+            }
+            btnStart.IsEnabled = true;
+        }
+
+        private void RefreshView()
+        {
+            lblDynamic.Content = lblStatic.Content = lblUserPress.Content = lblFails.Content = lblSpeed.Content = null;
+            lblUserPress.Background = Brushes.Transparent;
+            currentText = String.Empty;
+            counter = 1;
+            failsCount = second = speed = 0;
+            btnStart.IsEnabled = btnStop.IsEnabled = false;
+            cbCase.IsChecked = false;
+            slDificult.Value = 0;
+            mainWindow.KeyDown -= Key_Down;
+            mainWindow.KeyUp -= Key_Up;
+        }
+
+        private void btnStop_Click(object sender, RoutedEventArgs e)
+        {
+            timer.Dispose();
+            MessageBox.Show($"You've done {failsCount} fails", "Finish", MessageBoxButton.OK);
+            RefreshView();
+        }
     }
 }
